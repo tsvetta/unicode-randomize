@@ -35,7 +35,7 @@
     const Dot = () => {
       let [char, setChar] = React.useState(getRandomUnicodeChar());
 
-      useInterval(() => setChar(getRandomUnicodeChar()), Math.random() * 10000);
+      useInterval(() => setChar(getRandomUnicodeChar()), Math.random() * 1000);
 
       return (
         <div style={{
@@ -58,7 +58,7 @@
     const App = () => {
       const dots = [];
 
-      for (let i = 1; i <= 1000; i++) {
+      for (let i = 1; i <= 10000; i++) {
         dots.push(<Dot key={i} />);
       }
 
