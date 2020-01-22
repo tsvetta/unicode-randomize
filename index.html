@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Unicode Randomize</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body style={{ padding: 0, margin: 0 }}>
+  <div id="root">Приложение не загрузилось</div>
+  <script type="text/babel">
+    const getRandomUnicodeChar = () => String.fromCharCode(Math.random() * 1000000000000000000);
+
+    function useInterval(callback, delay) {
+      const savedCallback = React.useRef();
+
+      React.useEffect(() => {
+        savedCallback.current = callback;
+      }, [callback]);
+
+      React.useEffect(() => {
+        function tick() {
+          savedCallback.current();
+        }
+        if (delay !== null) {
+          let id = setInterval(tick, delay);
+          return () => clearInterval(id);
+        }
+      }, [delay]);
+    }
+
+    const Dot = () => {
+      let [char, setChar] = React.useState(getRandomUnicodeChar());
+
+      useInterval(() => setChar(getRandomUnicodeChar()), Math.random() * 10000);
+
+      return (
+        <div style={{
+          color: "white",
+          backgroundColor: "black",
+          width: 24,
+          height: 24,
+          margin: 1,
+          fontSize: 20,
+          fontFamily: 'monospace',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          {char}
+        </div>
+      );
+    };
+
+    const App = () => {
+      const dots = [];
+
+      for (let i = 1; i <= 1000; i++) {
+        dots.push(<Dot key={i} />);
+      }
+
+      return <div style={{ display: 'inline-flex', flexWrap: 'wrap' }}>{dots.map(dot => dot)}</div>
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
